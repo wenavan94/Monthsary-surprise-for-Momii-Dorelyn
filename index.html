@@ -20,7 +20,7 @@
     --dark: #2b1b1e;
   }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: auto; }
 
   body {
     font-family: 'Lato', sans-serif;
@@ -28,6 +28,7 @@
     color: var(--dark);
     overflow-x: hidden;
     line-height: 1.7;
+    min-height: 100vh;
   }
 
   /* ── floating hearts background ── */
@@ -55,7 +56,7 @@
   .petals-bg {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    pointer-events: none; z-index: 0;
+    pointer-events: none; z-index: -1;
     overflow: hidden;
   }
   .rose-petal {
@@ -64,28 +65,26 @@
     width: 18px; height: 18px;
     background: radial-gradient(circle at 30% 30%, #f194b5, #e8527a 60%, #c2255c);
     border-radius: 0 50% 50% 50%;
-    box-shadow: 0 0 6px rgba(232,82,122,0.5);
     opacity: 0;
     animation: petalFall linear infinite;
     will-change: transform, opacity;
   }
   @keyframes petalFall {
-    0%   { transform: translate3d(0, -20px, 0) rotate(0deg); opacity: 0; }
-    5%   { opacity: 0.9; }
-    30%  { transform: translate3d(30px, 30vh, 0) rotate(120deg); }
-    60%  { transform: translate3d(-40px, 65vh, 0) rotate(240deg); }
-    100% { transform: translate3d(25px, 110vh, 0) rotate(360deg); opacity: 0.85; }
+    0%   { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
+    8%   { opacity: 0.8; }
+    100% { transform: translate3d(var(--tx, 20px), 110vh, 0) rotate(var(--rot, 360deg)); opacity: 0.7; }
   }
 
   /* ── hero ── */
   .hero {
     position: relative;
     min-height: 100vh;
+    min-height: 100svh;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
     text-align: center;
     background: linear-gradient(135deg, #2b1b1e 0%, #5c2233 40%, #722f37 70%, #2b1b1e 100%);
-    overflow: hidden;
+    /* overflow: hidden removed — prevents scroll trapping on mobile */
   }
   .hero::before {
     content: '';
@@ -142,6 +141,7 @@
   section {
     position: relative; z-index: 1;
     padding: 5rem 1.5rem;
+    margin: 0;
   }
   .section-inner {
     max-width: 800px; margin: 0 auto;
@@ -289,15 +289,15 @@
     padding: 2rem;
     color: rgba(255,255,255,0.6);
     font-size: 0.9rem;
-    clear: both;
+        margin-top: 0;
   }
   footer a { color: var(--rose-light); text-decoration: none; }
 
   /* ── reveal animation ── */
   .reveal {
     opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
   }
   .reveal.visible {
     opacity: 1;
@@ -345,9 +345,6 @@
     0%,100% { transform: scaleY(0.4); }
     50%     { transform: scaleY(1); }
   }
-
-    @keyframes popupFadeIn { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes popupFadeOut { from { opacity: 1; } to { opacity: 0; } }
 
   /* ── extra animations ── */
 
@@ -499,20 +496,7 @@
     .gallery-card:hover { transform: none; }
   }
 
-  /* ── sparkle cursor ── */
-  .sparkle {
-    position: fixed;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 10006;
-    animation: sparkle-fade 0.6s ease-out forwards;
-  }
-  @keyframes sparkle-fade {
-    0%   { opacity: 1; transform: scale(1); }
-    100% { opacity: 0; transform: scale(0) translateY(-20px); }
-  }
-</style>
+  </style>
 </head>
 <body>
 
@@ -655,16 +639,21 @@
   const bg = document.getElementById('petalsBg');
   if (!bg) return;
   const isMobile = window.innerWidth <= 640;
-  const count = isMobile ? 25 : 18;
+  const count = isMobile ? 20 : 15;
   for (let i = 0; i < count; i++) {
     const p = document.createElement('div');
     p.className = 'rose-petal';
-    p.style.left = (Math.random() * 100) + '%';
-    const size = isMobile ? (16 + Math.random() * 14) : (12 + Math.random() * 14);
+    const left = (Math.random() * 100) + '%';
+    const tx = (Math.random() - 0.5) * 80; // -40px to 40px
+    const rot = 240 + Math.random() * 240; // 240deg to 480deg
+    p.style.left = left;
+    p.style.setProperty('--tx', tx + 'px');
+    p.style.setProperty('--rot', rot + 'deg');
+    const size = isMobile ? (14 + Math.random() * 12) : (10 + Math.random() * 10);
     p.style.width  = size + 'px';
     p.style.height = (size * 1.2) + 'px';
-    p.style.animationDuration = (5 + Math.random() * 7) + 's';
-    p.style.animationDelay    = (Math.random() * 8) + 's';
+    p.style.animationDuration = (6 + Math.random() * 8) + 's';
+    p.style.animationDelay    = (Math.random() * 10) + 's';
     bg.appendChild(p);
   }
 })();
@@ -685,30 +674,45 @@
   }
 })();
 
-// ── music: try auto-play, fallback to tap ──
+// ── music: muted autoplay, unmute on first interaction ──
 (function initMusic() {
   const btn   = document.getElementById('musicBtn');
   const music = document.getElementById('bgMusic');
   if (!btn || !music) return;
 
   let playing = false;
+  let unmuted = false;
 
   function startMusic() {
     if (playing) return;
-    music.muted = false;
     music.play().then(() => {
       playing = true;
       btn.classList.add('playing');
     }).catch(() => {});
   }
 
-  // Try to auto-play on load (will work if user has interacted before, or if browser allows)
-  // Modern browsers often block autoplay with sound, so we also listen for first interaction
+  function unmuteMusic() {
+    if (unmuted) return;
+    music.muted = false;
+    unmuted = true;
+    // Remove listeners after first interaction
+    cleanup();
+  }
+
+  function cleanup() {
+    document.removeEventListener('click', unmuteMusic);
+    document.removeEventListener('touchstart', unmuteMusic);
+    document.removeEventListener('scroll', unmuteMusic);
+  }
+
+  // Start immediately MUTED (always works)
+  music.muted = true;
   startMusic();
 
-  // Fallback: first tap anywhere starts music if autoplay was blocked
-  document.addEventListener('click', startMusic, { once: true });
-  document.addEventListener('touchstart', startMusic, { once: true });
+  // Unmute on first user interaction (scroll, click, touch)
+  document.addEventListener('click', unmuteMusic, { once: true, passive: true });
+  document.addEventListener('touchstart', unmuteMusic, { once: true, passive: true });
+  document.addEventListener('scroll', unmuteMusic, { once: true, passive: true });
 
   // Manual button toggle
   btn.addEventListener('click', (e) => {
@@ -747,19 +751,6 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.05, rootMargin: '0px 0px -5% 0px' });
 reveals.forEach(el => observer.observe(el));
-
-// ── sparkle on click ──
-document.addEventListener('click', (e) => {
-  for (let i = 0; i < 6; i++) {
-    const sp = document.createElement('div');
-    sp.className = 'sparkle';
-    sp.style.left = (e.clientX + (Math.random()-0.5)*30) + 'px';
-    sp.style.top  = (e.clientY + (Math.random()-0.5)*30) + 'px';
-    sp.style.background = ['#e8527a','#d4a853','#f7a8c4','#fff'][Math.floor(Math.random()*4)];
-    document.body.appendChild(sp);
-    setTimeout(() => sp.remove(), 600);
-  }
-});
 </script>
 
 </body>
