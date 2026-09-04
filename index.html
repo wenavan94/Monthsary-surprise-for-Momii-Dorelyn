@@ -325,6 +325,17 @@
   .music-eq i:nth-child(1) { height: 40%; }
   .music-eq i:nth-child(2) { height: 100%; animation-delay: 0.2s; }
   .music-eq i:nth-child(3) { height: 60%; animation-delay: 0.4s; }
+  .music-hint {
+    position: absolute;
+    top: -8px; right: -8px;
+    font-size: 1.3rem;
+    animation: hintBounce 1.5s ease-in-out infinite;
+    transition: opacity 0.4s ease;
+  }
+  @keyframes hintBounce {
+    0%,100% { transform: translateY(0) scale(1); }
+    50%     { transform: translateY(-5px) scale(1.15); }
+  }
   @keyframes eq {
     0%,100% { transform: scaleY(0.4); }
     50%     { transform: scaleY(1); }
@@ -504,7 +515,7 @@
   <span class="music-eq" id="musicEq" aria-hidden="true"><i></i><i></i><i></i></span>
 </button>
 <!-- 👇 replace music.mp3 with your song file name -->
-<audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
+<audio id="bgMusic" src="music.mp3" loop preload="auto" muted></audio>
 
 <!-- ═══════════ HERO ═══════════ -->
 <section class="hero">
@@ -660,12 +671,38 @@
   }
 })();
 
-// ── music player ──
+// ── music auto-play (unmutes on first tap) ──
 (function initMusic() {
-  const btn = document.getElementById('musicBtn');
+  const btn   = document.getElementById('musicBtn');
   const music = document.getElementById('bgMusic');
   if (!btn || !music) return;
-  btn.addEventListener('click', () => {
+
+  // start with a subtle "tap for music" hint on the button
+  const hint = document.createElement('span');
+  hint.className = 'music-hint';
+  hint.textContent = '🎶';
+  btn.appendChild(hint);
+
+  let playing = false;
+
+  function startMusic() {
+    if (playing) return;
+    music.muted = false;
+    music.play().then(() => {
+      playing = true;
+      btn.classList.add('playing');
+      hint.style.opacity = '0';
+      setTimeout(() => hint.remove(), 400);
+    }).catch(() => {});
+  }
+
+  // first tap anywhere starts music (browser policy requires user gesture)
+  document.addEventListener('click', startMusic, { once: true });
+  document.addEventListener('touchstart', startMusic, { once: true });
+
+  // manual button toggle still works after music starts
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
     if (music.paused) {
       music.play().then(() => btn.classList.add('playing')).catch(() => {});
     } else {
