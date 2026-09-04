@@ -54,7 +54,7 @@
   .petals-bg {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    pointer-events: none; z-index: 9997;
+    pointer-events: none; z-index: 0;
     overflow: hidden;
   }
   .rose-petal {
@@ -66,6 +66,7 @@
     box-shadow: 0 0 6px rgba(232,82,122,0.5);
     opacity: 0;
     animation: petalFall linear infinite;
+    will-change: transform;
   }
   @keyframes petalFall {
     0%   { transform: translate3d(0, -20px, 0) rotate(0deg); opacity: 0; }
@@ -153,7 +154,7 @@
   }
 
   /* ── love letter ── */
-  .letter-section { background: var(--blush); }
+  .letter-section { background: rgba(255,240,245,0.85); }
   .letter-card {
     background: #fff;
     border-radius: 16px;
@@ -221,7 +222,7 @@
   .reason-card p { font-size: 0.9rem; color: rgba(255,255,255,0.8); line-height: 1.6; }
 
   /* ── gallery / photo memories ── */
-  .gallery-section { background: var(--blush); }
+  .gallery-section { background: rgba(255,240,245,0.85); }
   .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
