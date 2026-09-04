@@ -280,12 +280,13 @@
   /* ── footer ── */
   footer {
     position: relative;
-    z-index: 2;
+    z-index: 10003;
     background: var(--dark);
     text-align: center;
     padding: 2rem;
     color: rgba(255,255,255,0.6);
     font-size: 0.9rem;
+    clear: both;
   }
   footer a { color: var(--rose-light); text-decoration: none; }
 
@@ -304,7 +305,7 @@
   .music-btn {
     position: fixed;
     right: 1rem; bottom: 1rem;
-    z-index: 10002;
+    z-index: 10005;
     width: 56px; height: 56px;
     border: none; border-radius: 50%;
     background: linear-gradient(135deg, var(--rose), var(--wine));
@@ -346,7 +347,7 @@
   .sound-popup {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    z-index: 9998;
+    z-index: 10004;
     background: rgba(43,27,30,0.45);
     display: flex; align-items: center; justify-content: center;
     cursor: pointer;
@@ -367,6 +368,7 @@
     box-shadow: 0 16px 60px rgba(0,0,0,0.35);
     margin: 0 auto;
     pointer-events: auto;
+    transform: none;
   }
   .popup-heart { font-size: 3.2rem; margin-bottom: 0.5rem; animation: pulse 1.5s ease-in-out infinite; }
   .popup-title {
@@ -382,6 +384,8 @@
     margin-bottom: 0.6rem;
   }
   .popup-hint { font-size: 1.8rem; display: inline-block; animation: hintBounce 1.5s ease-in-out infinite; }
+  @keyframes popupFadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes popupFadeOut { from { opacity: 1; } to { opacity: 0; } }
 
   /* ── extra animations ── */
 
@@ -498,6 +502,7 @@
   /* ── mobile / phone view ── */
   @media (max-width: 640px) {
     section { padding: 4rem 1.25rem; }
+    footer { position: relative; z-index: 10003; }
 
     .hero { min-height: 100svh; }
     .hero h1 { font-size: clamp(2.4rem, 13vw, 4rem); }
@@ -520,6 +525,10 @@
     .big-heart { font-size: 3rem; margin: 1.5rem 0; }
 
     footer { padding: 1.5rem 1rem; font-size: 0.85rem; color: rgba(255,255,255,0.6); }
+    .sound-popup { align-items: center; justify-content: center; padding: 1rem; }
+    .popup-card { max-width: 90%; width: 90%; padding: 2rem 1.5rem; }
+    .music-btn { right: 0.75rem; bottom: 0.75rem; width: 52px; height: 52px; font-size: 1.3rem; }
+    .sound-popup { z-index: 10004; }
   }
 
   /* ── disable hover effects on touch devices ── */
@@ -534,7 +543,7 @@
     width: 8px; height: 8px;
     border-radius: 50%;
     pointer-events: none;
-    z-index: 9999;
+    z-index: 10006;
     animation: sparkle-fade 0.6s ease-out forwards;
   }
   @keyframes sparkle-fade {
