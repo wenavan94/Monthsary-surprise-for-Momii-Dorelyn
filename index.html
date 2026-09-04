@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Monthsary Momii Dorelyn ❤️</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --rose: #e8527a;
+    --rose-light: #f7a8c4;
+    --blush: #fff0f5;
+    --gold: #d4a853;
+    --gold-light: #f0d68a;
+    --wine: #722f37;
+    --cream: #fdf8f0;
+    --dark: #2b1b1e;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    overflow-x: hidden;
+    line-height: 1.7;
+  }
+
+  /* ── floating hearts background ── */
+  .hearts-bg {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 0;
+    overflow: hidden;
+  }
+  .heart-float {
+    position: absolute;
+    bottom: -60px;
+    font-size: 20px;
+    opacity: 0;
+    animation: floatUp 8s ease-in infinite;
+  }
+  @keyframes floatUp {
+    0%   { opacity: 0; transform: translateY(0) rotate(0deg) scale(0.8); }
+    10%  { opacity: 0.7; }
+    90%  { opacity: 0.5; }
+    100% { opacity: 0; transform: translateY(-110vh) rotate(360deg) scale(1.2); }
+  }
+
+  /* ── falling rose petals background ── */
+  .petals-bg {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 0;
+    overflow: hidden;
+  }
+  .rose-petal {
+    position: absolute;
+    top: -60px;
+    width: 14px; height: 14px;
+    background: radial-gradient(circle at 30% 30%, #f194b5, #e8527a 60%, #c2255c);
+    border-radius: 0 50% 50% 50%;
+    box-shadow: 0 0 4px rgba(232,82,122,0.4);
+    opacity: 0;
+    animation: petalFall linear infinite;
+  }
+  @keyframes petalFall {
+    0%   { transform: translate3d(0, -20px, 0) rotate(0deg); opacity: 0; }
+    8%   { opacity: 0.85; }
+    40%  { transform: translate3d(40px, 45vh, 0) rotate(140deg); }
+    70%  { transform: translate3d(-30px, 85vh, 0) rotate(260deg); }
+    100% { transform: translate3d(20px, 115vh, 0) rotate(360deg); opacity: 0.8; }
+  }
+
+  /* ── hero ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    background: linear-gradient(135deg, #2b1b1e 0%, #5c2233 40%, #722f37 70%, #2b1b1e 100%);
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(232,82,122,0.15) 0%, transparent 60%),
+                radial-gradient(circle at 70% 30%, rgba(212,168,83,0.1) 0%, transparent 50%);
+  }
+  .hero-content { position: relative; z-index: 2; padding: 2rem; }
+
+  .hero h1 {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(2.8rem, 8vw, 6rem);
+    color: var(--gold-light);
+    text-shadow: 0 2px 30px rgba(212,168,83,0.4);
+    animation: glow 3s ease-in-out infinite alternate;
+  }
+  @keyframes glow {
+    from { text-shadow: 0 2px 30px rgba(212,168,83,0.3); }
+    to   { text-shadow: 0 2px 50px rgba(212,168,83,0.7), 0 0 80px rgba(232,82,122,0.3); }
+  }
+
+  .hero .subtitle {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    color: var(--rose-light);
+    margin-top: 0.5rem;
+    font-style: italic;
+    letter-spacing: 0.05em;
+  }
+
+  .hero .names {
+    margin-top: 2rem;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    color: #fff;
+    font-weight: 300;
+  }
+  .hero .names span {
+    color: var(--gold-light);
+    font-weight: 700;
+  }
+
+  .scroll-hint {
+    position: absolute; bottom: 2rem;
+    animation: bounce 2s ease-in-out infinite;
+    color: var(--rose-light); font-size: 1.5rem; opacity: 0.7;
+  }
+  @keyframes bounce {
+    0%,100% { transform: translateY(0); }
+    50%     { transform: translateY(12px); }
+  }
+
+  /* ── sections shared ── */
+  section {
+    position: relative; z-index: 1;
+    padding: 5rem 1.5rem;
+  }
+  .section-inner {
+    max-width: 800px; margin: 0 auto;
+  }
+  .section-title {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    color: var(--wine);
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  /* ── love letter ── */
+  .letter-section { background: var(--blush); }
+  .letter-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 3rem 2.5rem;
+    box-shadow: 0 8px 40px rgba(114,47,55,0.1);
+    border: 1px solid var(--rose-light);
+    position: relative;
+    overflow: hidden;
+  }
+  .letter-card::before {
+    content: '"';
+    position: absolute; top: -10px; left: 20px;
+    font-family: 'Great Vibes', cursive;
+    font-size: 8rem;
+    color: var(--rose-light);
+    opacity: 0.3;
+  }
+  .letter-card p {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    line-height: 2;
+    color: #444;
+    margin-bottom: 1.2rem;
+    position: relative; z-index: 1;
+  }
+  .letter-card .signature {
+    text-align: right;
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.8rem;
+    color: var(--rose);
+    margin-top: 2rem;
+  }
+
+  /* ── reasons ── */
+  .reasons-section {
+    background: linear-gradient(135deg, var(--wine) 0%, #5c2233 100%);
+    color: #fff;
+  }
+  .reasons-section .section-title { color: var(--gold-light); }
+  .reasons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+  .reason-card {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: default;
+  }
+  .reason-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  }
+  .reason-card .emoji { font-size: 2.5rem; margin-bottom: 0.8rem; }
+  .reason-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+    color: var(--gold-light);
+  }
+  .reason-card p { font-size: 0.9rem; color: rgba(255,255,255,0.8); line-height: 1.6; }
+
+  /* ── gallery / photo memories ── */
+  .gallery-section { background: var(--blush); }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+  .gallery-card {
+    aspect-ratio: 4/3;
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, var(--rose-light), var(--gold-light));
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 24px rgba(114,47,55,0.12);
+    transition: transform 0.3s;
+  }
+  .gallery-card:hover { transform: scale(1.03); }
+  .gallery-card .placeholder {
+    text-align: center; color: var(--wine); padding: 1rem;
+  }
+  .gallery-card .placeholder .icon { font-size: 3rem; margin-bottom: 0.5rem; }
+  .gallery-card .placeholder p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+  }
+  /* If you add real images, replace the .placeholder with an <img> */
+  .gallery-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+
+  /* ── promise / closing ── */
+  .promise-section {
+    background: linear-gradient(135deg, #2b1b1e, #5c2233);
+    text-align: center;
+    padding: 6rem 1.5rem;
+  }
+  .promise-section .section-title { color: var(--gold-light); }
+  .promise-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: rgba(255,255,255,0.85);
+    max-width: 650px;
+    margin: 0 auto;
+    line-height: 2;
+  }
+  .big-heart {
+    font-size: 4rem;
+    margin: 2rem 0;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { transform: scale(1); }
+    50%     { transform: scale(1.2); }
+  }
+
+  /* ── footer ── */
+  footer {
+    background: var(--dark);
+    text-align: center;
+    padding: 2rem;
+    color: rgba(255,255,255,0.4);
+    font-size: 0.85rem;
+  }
+  footer a { color: var(--rose-light); text-decoration: none; }
+
+  /* ── reveal animation ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── floating music player ── */
+  .music-btn {
+    position: fixed;
+    right: 1rem; bottom: 1rem;
+    z-index: 10000;
+    width: 56px; height: 56px;
+    border: none; border-radius: 50%;
+    background: linear-gradient(135deg, var(--rose), var(--wine));
+    color: #fff; font-size: 1.5rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 22px rgba(114,47,55,0.45);
+    transition: transform 0.3s, box-shadow 0.3s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .music-btn:hover { transform: scale(1.1); box-shadow: 0 8px 26px rgba(114,47,55,0.55); }
+  .music-eq { display: none; gap: 3px; align-items: flex-end; height: 18px; }
+  .music-btn.playing .music-eq { display: flex; }
+  .music-btn.playing .music-note { display: none; }
+  .music-eq i {
+    width: 3px; background: #fff; border-radius: 2px;
+    animation: eq 0.9s ease-in-out infinite;
+  }
+  .music-eq i:nth-child(1) { height: 40%; }
+  .music-eq i:nth-child(2) { height: 100%; animation-delay: 0.2s; }
+  .music-eq i:nth-child(3) { height: 60%; animation-delay: 0.4s; }
+  @keyframes eq {
+    0%,100% { transform: scaleY(0.4); }
+    50%     { transform: scaleY(1); }
+  }
+
+  /* ── extra animations ── */
+
+  /* hero entrance (staggered fade-up) */
+  .hero-content > * {
+    opacity: 0;
+    animation: fadeUp 1s ease forwards;
+  }
+  .hero h1 { animation-delay: 0.2s; }
+  .hero .subtitle { animation-delay: 0.6s; }
+  .hero .names { animation-delay: 1s; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* hero background slow colour drift */
+  .hero { background-size: 200% 200%; animation: bgDrift 14s ease infinite; }
+  @keyframes bgDrift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* twinkling stars in hero */
+  .twinkle { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+  .twinkle i {
+    position: absolute;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--gold-light);
+    box-shadow: 0 0 8px var(--gold-light);
+    animation: twinkle 2.4s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%,100% { opacity: 0; transform: scale(0.3); }
+    50%     { opacity: 1; transform: scale(1); }
+  }
+
+  /* letter card shine sweep */
+  .letter-card::after {
+    content: '';
+    position: absolute; top: 0; left: -80%; width: 55%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent);
+    animation: shine 6s ease-in-out infinite;
+  }
+  @keyframes shine {
+    0%, 55% { left: -80%; }
+    80%, 100% { left: 130%; }
+  }
+
+  /* floating signature */
+  .letter-card .signature { animation: floaty 3.5s ease-in-out infinite; }
+
+  /* bobbing reason emojis */
+  .reason-card .emoji { display: inline-block; animation: bob 3s ease-in-out infinite; }
+  .reason-card:nth-child(even) .emoji { animation-delay: 1.5s; }
+  @keyframes bob {
+    0%,100% { transform: translateY(0); }
+    50%     { transform: translateY(-8px); }
+  }
+
+  /* Ken Burns slow zoom on gallery photos */
+  .gallery-card img { animation: kenburns 14s ease-in-out infinite alternate; }
+  @keyframes kenburns {
+    from { transform: scale(1); }
+    to   { transform: scale(1.12); }
+  }
+
+  /* pulsing rings around the big hearts */
+  .big-heart { position: relative; }
+  .big-heart::before, .big-heart::after {
+    content: ''; position: absolute; inset: -14px; border-radius: 50%;
+    border: 2px solid var(--rose); opacity: 0;
+    animation: ring 2.6s ease-out infinite;
+  }
+  .big-heart::after { animation-delay: 1.3s; }
+  @keyframes ring {
+    0%   { transform: scale(0.6); opacity: 0.7; }
+    100% { transform: scale(1.7); opacity: 0; }
+  }
+
+  /* shared float */
+  @keyframes floaty {
+    0%,100% { transform: translateY(0); }
+    50%     { transform: translateY(-6px); }
+  }
+
+  /* staggered card reveals */
+  .reasons-grid .reason-card:nth-child(2) { transition-delay: 0.12s; }
+  .reasons-grid .reason-card:nth-child(3) { transition-delay: 0.24s; }
+  .reasons-grid .reason-card:nth-child(4) { transition-delay: 0.36s; }
+  .reasons-grid .reason-card:nth-child(5) { transition-delay: 0.48s; }
+  .reasons-grid .reason-card:nth-child(6) { transition-delay: 0.6s; }
+  .gallery-grid .gallery-card:nth-child(2) { transition-delay: 0.15s; }
+  .gallery-grid .gallery-card:nth-child(3) { transition-delay: 0.3s; }
+
+  /* respect reduced-motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001s !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001s !important;
+    }
+    /* make sure hidden-by-animation content always shows */
+    .hero-content > * { opacity: 1 !important; transform: none !important; }
+  }
+
+  /* safety: never let the hero title stay hidden if animations fail */
+  @supports not (animation: fadeUp 1s) {
+    .hero-content > * { opacity: 1 !important; transform: none !important; }
+  }
+
+  /* ── mobile / phone view ── */
+  @media (max-width: 640px) {
+    section { padding: 4rem 1.25rem; }
+
+    .hero { min-height: 100svh; }
+    .hero h1 { font-size: clamp(2.4rem, 13vw, 4rem); }
+    .hero .names { font-size: 1.3rem; margin-top: 1.5rem; }
+    .scroll-hint { bottom: 1.5rem; }
+
+    .section-title { margin-bottom: 1.5rem; }
+
+    .letter-card { padding: 2.2rem 1.4rem; }
+    .letter-card p { font-size: 1rem; line-height: 1.9; }
+    .letter-card::before { font-size: 6rem; }
+
+    .reasons-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .reason-card { padding: 1.5rem 1.25rem; }
+
+    .gallery-grid { grid-template-columns: 1fr; gap: 1rem; }
+
+    .promise-section { padding: 4rem 1.25rem; }
+    .promise-text { font-size: 1rem; line-height: 1.9; }
+    .big-heart { font-size: 3rem; margin: 1.5rem 0; }
+
+    footer { padding: 1.5rem 1rem; }
+  }
+
+  /* ── disable hover effects on touch devices ── */
+  @media (hover: none) {
+    .reason-card:hover { transform: none; box-shadow: none; }
+    .gallery-card:hover { transform: none; }
+  }
+
+  /* ── sparkle cursor ── */
+  .sparkle {
+    position: fixed;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    animation: sparkle-fade 0.6s ease-out forwards;
+  }
+  @keyframes sparkle-fade {
+    0%   { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0) translateY(-20px); }
+  }
+</style>
+</head>
+<body>
+
+<!-- falling rose petals -->
+<div class="petals-bg" id="petalsBg"></div>
+
+<!-- floating hearts -->
+<div class="hearts-bg" id="heartsBg"></div>
+
+<!-- floating music player -->
+<button class="music-btn" id="musicBtn" aria-label="Play background music">
+  <span class="music-note">🎵</span>
+  <span class="music-eq" id="musicEq" aria-hidden="true"><i></i><i></i><i></i></span>
+</button>
+<!-- 👇 replace music.mp3 with your song file name -->
+<audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero">
+  <div class="twinkle"></div>
+  <div class="hero-content">
+    <h1>Happy Monthsary</h1>
+    <p class="subtitle">To the love of my life</p>
+    <p class="names">For <span>Momii Dorelyn</span> 💕</p>
+  </div>
+  <div class="scroll-hint">↓</div>
+</section>
+
+<!-- ═══════════ LOVE LETTER ═══════════ -->
+<section class="letter-section">
+  <div class="section-inner reveal">
+    <h2 class="section-title">A Letter For You</h2>
+    <div class="letter-card">
+      <p>My dearest Momii Dorelyn,</p>
+      <p>
+        Today we celebrate our monthsary — another beautiful month of choosing each other, over and
+        over again. Every laugh we share, every quiet moment, every challenge we overcome
+        together — it all reminds me how lucky I am to have you.
+      </p>
+      <p>
+        You are my sunrise and my calm after the storm. Your smile lights up my darkest days,
+        and your love gives me strength I never knew I had. I fall in love with you a little
+        more every single day.
+      </p>
+      <p>
+        Thank you for being patient, for being kind, for being <em>you</em>. Thank you for
+        the memories we've made and the ones still waiting for us. I wouldn't want to walk
+        this journey with anyone else.
+      </p>
+      <p>
+        Here's to us — to more adventures, more laughter, more inside jokes, and a lifetime
+        of love. I love you more than words could ever say. ❤️
+      </p>
+      <p class="signature">Forever Yours 💋</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ REASONS I LOVE YOU ═══════════ -->
+<section class="reasons-section">
+  <div class="section-inner">
+    <h2 class="section-title reveal">Reasons I Love You</h2>
+    <div class="reasons-grid">
+      <div class="reason-card reveal">
+        <div class="emoji">😊</div>
+        <h3>Your Smile</h3>
+        <p>It brightens every room and makes my heart skip a beat every single time.</p>
+      </div>
+      <div class="reason-card reveal">
+        <div class="emoji">💪</div>
+        <h3>Your Strength</h3>
+        <p>The way you face every challenge with courage inspires me to be better every day.</p>
+      </div>
+      <div class="reason-card reveal">
+        <div class="emoji">🤗</div>
+        <h3>Your Kindness</h3>
+        <p>Your gentle heart and compassion for others makes the world a better place.</p>
+      </div>
+      <div class="reason-card reveal">
+        <div class="emoji">😂</div>
+        <h3>Your Humor</h3>
+        <p>Life with you is never boring — you make even ordinary moments extraordinary.</p>
+      </div>
+      <div class="reason-card reveal">
+        <div class="emoji">🌙</div>
+        <h3>Your Patience</h3>
+        <p>Thank you for loving me even on my worst days. Your patience is a gift I treasure.</p>
+      </div>
+      <div class="reason-card reveal">
+        <div class="emoji">✨</div>
+        <h3>Just You</h3>
+        <p>Every little thing about you — the way you talk, think, dream — I love it all.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ PHOTO MEMORIES ═══════════ -->
+<section class="gallery-section">
+  <div class="section-inner">
+    <h2 class="section-title reveal">Our Memories 📸</h2>
+    <div class="gallery-grid">
+      <!-- Replace these placeholders with real photos -->
+      <div class="gallery-card reveal">
+        <img src="mom-dad.jpg" alt="Momii Dorelyn — our favorite photo together">
+      </div>
+      <div class="gallery-card reveal">
+        <img src="mom-dad-2.png" alt="Another favorite memory together">
+      </div>
+      <div class="gallery-card reveal">
+        <img src="mom-dad-3.jpg" alt="A beautiful memory together">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ PROMISE / CLOSING ═══════════ -->
+<section class="promise-section">
+  <div class="section-inner reveal">
+    <h2 class="section-title">My Promise To You</h2>
+    <div class="big-heart">❤️</div>
+    <p class="promise-text">
+      I promise to love you more today than yesterday, and less than tomorrow.<br>
+      To hold your hand through every storm and dance with you in every rain.<br>
+      To choose you — always and forever.<br><br>
+      <strong style="color:var(--gold-light); font-size:1.2em;">Happy Monthsary, Momii Dorelyn.</strong><br>
+      <em>You are my everything. 🌹</em>
+    </p>
+    <div class="big-heart">❤️</div>
+  </div>
+</section>
+
+<footer>
+  Made with ❤️ for Momii Dorelyn &nbsp;|&nbsp; Forever isn't long enough
+</footer>
+
+<script>
+// ── falling rose petals ──
+(function spawnPetals() {
+  const bg = document.getElementById('petalsBg');
+  if (!bg) return;
+  const count = 30;
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'rose-petal';
+    p.style.left = (Math.random() * 100) + '%';
+    const size = 10 + Math.random() * 16;
+    p.style.width  = size + 'px';
+    p.style.height = (size * 1.15) + 'px';
+    p.style.animationDuration = (6 + Math.random() * 8) + 's';
+    p.style.animationDelay    = (Math.random() * 10) + 's';
+    bg.appendChild(p);
+  }
+})();
+
+// ── floating hearts ──
+(function spawnHearts() {
+  const bg = document.getElementById('heartsBg');
+  const symbols = ['❤️','💕','💖','💗','💘','🌹','✨','💝'];
+  for (let i = 0; i < 25; i++) {
+    const el = document.createElement('span');
+    el.className = 'heart-float';
+    el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+    el.style.left = Math.random() * 100 + '%';
+    el.style.fontSize = (14 + Math.random() * 20) + 'px';
+    el.style.animationDuration = (6 + Math.random() * 8) + 's';
+    el.style.animationDelay = (Math.random() * 10) + 's';
+    bg.appendChild(el);
+  }
+})();
+
+// ── music player ──
+(function initMusic() {
+  const btn = document.getElementById('musicBtn');
+  const music = document.getElementById('bgMusic');
+  if (!btn || !music) return;
+  btn.addEventListener('click', () => {
+    if (music.paused) {
+      music.play().then(() => btn.classList.add('playing')).catch(() => {});
+    } else {
+      music.pause();
+      btn.classList.remove('playing');
+    }
+  });
+})();
+
+// ── twinkling stars in hero ──
+(function spawnTwinkle() {
+  const wrap = document.querySelector('.twinkle');
+  if (!wrap) return;
+  for (let i = 0; i < 16; i++) {
+    const s = document.createElement('i');
+    s.style.left = (Math.random() * 100) + '%';
+    s.style.top = (Math.random() * 100) + '%';
+    s.style.animationDelay = (Math.random() * 3) + 's';
+    s.style.animationDuration = (1.8 + Math.random() * 2.2) + 's';
+    wrap.appendChild(s);
+  }
+})();
+
+// ── scroll reveal ──
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15 });
+reveals.forEach(el => observer.observe(el));
+
+// ── sparkle on click ──
+document.addEventListener('click', (e) => {
+  for (let i = 0; i < 6; i++) {
+    const sp = document.createElement('div');
+    sp.className = 'sparkle';
+    sp.style.left = (e.clientX + (Math.random()-0.5)*30) + 'px';
+    sp.style.top  = (e.clientY + (Math.random()-0.5)*30) + 'px';
+    sp.style.background = ['#e8527a','#d4a853','#f7a8c4','#fff'][Math.floor(Math.random()*4)];
+    document.body.appendChild(sp);
+    setTimeout(() => sp.remove(), 600);
+  }
+});
+</script>
+
+</body>
+</html>
