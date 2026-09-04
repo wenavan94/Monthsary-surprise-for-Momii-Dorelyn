@@ -42,6 +42,7 @@
     font-size: 20px;
     opacity: 0;
     animation: floatUp 8s ease-in infinite;
+    will-change: transform, opacity;
   }
   @keyframes floatUp {
     0%   { opacity: 0; transform: translateY(0) rotate(0deg) scale(0.8); }
@@ -66,7 +67,7 @@
     box-shadow: 0 0 6px rgba(232,82,122,0.5);
     opacity: 0;
     animation: petalFall linear infinite;
-    will-change: transform;
+    will-change: transform, opacity;
   }
   @keyframes petalFall {
     0%   { transform: translate3d(0, -20px, 0) rotate(0deg); opacity: 0; }
@@ -348,16 +349,24 @@
   /* ── sound popup ── */
   .sound-popup {
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 10004;
-    background: rgba(43,27,30,0.45);
+    background: rgba(43,27,30,0.5);
     display: flex; align-items: center; justify-content: center;
     cursor: pointer;
+    width: 90%; max-width: 360px;
+    border-radius: 28px;
+    padding: 0.5rem;
+    opacity: 0;
+    animation: popupFadeIn 0.5s ease forwards;
+    pointer-events: auto;
+    will-change: opacity;
   }
   .sound-popup.hide {
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.4s ease;
+    transition: opacity 0.3s ease;
   }
 
   .popup-card {
@@ -365,12 +374,10 @@
     border-radius: 24px;
     padding: 2.5rem 2rem;
     text-align: center;
-    max-width: 320px;
-    width: 85%;
+    width: 100%;
     box-shadow: 0 16px 60px rgba(0,0,0,0.35);
-    margin: 0 auto;
     pointer-events: auto;
-    transform: none;
+    will-change: transform;
   }
   .popup-heart { font-size: 3.2rem; margin-bottom: 0.5rem; animation: pulse 1.5s ease-in-out infinite; }
   .popup-title {
@@ -386,6 +393,9 @@
     margin-bottom: 0.6rem;
   }
   .popup-hint { font-size: 1.8rem; display: inline-block; animation: hintBounce 1.5s ease-in-out infinite; }
+
+  @keyframes popupFadeIn { from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+  @keyframes popupFadeOut { from { opacity: 1; } to { opacity: 0; } }
   @keyframes popupFadeIn { from { opacity: 0; } to { opacity: 1; } }
   @keyframes popupFadeOut { from { opacity: 1; } to { opacity: 0; } }
 
@@ -394,7 +404,7 @@
   /* hero entrance (staggered fade-up) — title is always visible, animation is a bonus */
   .hero-content > * {
     opacity: 1;
-    animation: fadeUp 1s ease both;
+    animation: fadeUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   }
   .hero h1 { animation-delay: 0.15s; }
   .hero .subtitle { animation-delay: 0.5s; }
@@ -405,7 +415,7 @@
   }
 
   /* hero background slow colour drift */
-  .hero { background-size: 200% 200%; animation: bgDrift 14s ease infinite; }
+  .hero { background-size: 200% 200%; animation: bgDrift 20s ease-in-out infinite; }
   @keyframes bgDrift {
     0%   { background-position: 0% 50%; }
     50%  { background-position: 100% 50%; }
@@ -420,7 +430,8 @@
     border-radius: 50%;
     background: var(--gold-light);
     box-shadow: 0 0 8px var(--gold-light);
-    animation: twinkle 2.4s ease-in-out infinite;
+    animation: twinkle 3s ease-in-out infinite;
+    will-change: transform, opacity;
   }
   @keyframes twinkle {
     0%,100% { opacity: 0; transform: scale(0.3); }
@@ -432,7 +443,8 @@
     content: '';
     position: absolute; top: 0; left: -80%; width: 55%; height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent);
-    animation: shine 6s ease-in-out infinite;
+    animation: shine 8s ease-in-out infinite;
+    will-change: left;
   }
   @keyframes shine {
     0%, 55% { left: -80%; }
@@ -440,18 +452,18 @@
   }
 
   /* floating signature */
-  .letter-card .signature { animation: floaty 3.5s ease-in-out infinite; }
+  .letter-card .signature { animation: floaty 4s ease-in-out infinite; will-change: transform; }
 
   /* bobbing reason emojis */
-  .reason-card .emoji { display: inline-block; animation: bob 3s ease-in-out infinite; }
-  .reason-card:nth-child(even) .emoji { animation-delay: 1.5s; }
+  .reason-card .emoji { display: inline-block; animation: bob 3.5s ease-in-out infinite; will-change: transform; }
+  .reason-card:nth-child(even) .emoji { animation-delay: 1.75s; }
   @keyframes bob {
     0%,100% { transform: translateY(0); }
     50%     { transform: translateY(-8px); }
   }
 
   /* Ken Burns slow zoom on gallery photos */
-  .gallery-card img { animation: kenburns 14s ease-in-out infinite alternate; }
+  .gallery-card img { animation: kenburns 18s ease-in-out infinite alternate; will-change: transform; }
   @keyframes kenburns {
     from { transform: scale(1); }
     to   { transform: scale(1.12); }
@@ -462,9 +474,10 @@
   .big-heart::before, .big-heart::after {
     content: ''; position: absolute; inset: -14px; border-radius: 50%;
     border: 2px solid var(--rose); opacity: 0;
-    animation: ring 2.6s ease-out infinite;
+    animation: ring 3s ease-out infinite;
+    will-change: transform, opacity;
   }
-  .big-heart::after { animation-delay: 1.3s; }
+  .big-heart::after { animation-delay: 1.5s; }
   @keyframes ring {
     0%   { transform: scale(0.6); opacity: 0.7; }
     100% { transform: scale(1.7); opacity: 0; }
@@ -527,10 +540,7 @@
     .big-heart { font-size: 3rem; margin: 1.5rem 0; }
 
     footer { padding: 1.5rem 1rem; font-size: 0.85rem; color: rgba(255,255,255,0.6); }
-    .sound-popup { align-items: center; justify-content: center; padding: 1rem; }
-    .popup-card { max-width: 90%; width: 90%; padding: 2rem 1.5rem; }
     .music-btn { right: 0.75rem; bottom: 0.75rem; width: 52px; height: 52px; font-size: 1.3rem; }
-    .sound-popup { z-index: 10004; }
   }
 
   /* ── disable hover effects on touch devices ── */
@@ -747,7 +757,7 @@
   function dismissPopup() {
     if (popup && !popup.classList.contains('hide')) {
       popup.classList.add('hide');
-      setTimeout(() => popup.remove(), 500);
+      setTimeout(() => popup.remove(), 400);
     }
   }
 
