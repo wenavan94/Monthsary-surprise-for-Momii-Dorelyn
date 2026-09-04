@@ -52,26 +52,27 @@
 
   /* ── falling rose petals background ── */
   .petals-bg {
-    position: fixed; inset: 0;
-    pointer-events: none; z-index: 0;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none; z-index: 9997;
     overflow: hidden;
   }
   .rose-petal {
     position: absolute;
-    top: -60px;
-    width: 14px; height: 14px;
+    top: -80px;
+    width: 18px; height: 18px;
     background: radial-gradient(circle at 30% 30%, #f194b5, #e8527a 60%, #c2255c);
     border-radius: 0 50% 50% 50%;
-    box-shadow: 0 0 4px rgba(232,82,122,0.4);
+    box-shadow: 0 0 6px rgba(232,82,122,0.5);
     opacity: 0;
     animation: petalFall linear infinite;
   }
   @keyframes petalFall {
     0%   { transform: translate3d(0, -20px, 0) rotate(0deg); opacity: 0; }
-    8%   { opacity: 0.85; }
-    40%  { transform: translate3d(40px, 45vh, 0) rotate(140deg); }
-    70%  { transform: translate3d(-30px, 85vh, 0) rotate(260deg); }
-    100% { transform: translate3d(20px, 115vh, 0) rotate(360deg); opacity: 0.8; }
+    5%   { opacity: 0.9; }
+    30%  { transform: translate3d(30px, 30vh, 0) rotate(120deg); }
+    60%  { transform: translate3d(-40px, 65vh, 0) rotate(240deg); }
+    100% { transform: translate3d(25px, 110vh, 0) rotate(360deg); opacity: 0.85; }
   }
 
   /* ── hero ── */
@@ -702,16 +703,17 @@
 (function spawnPetals() {
   const bg = document.getElementById('petalsBg');
   if (!bg) return;
-  const count = 18;
+  const isMobile = window.innerWidth <= 640;
+  const count = isMobile ? 25 : 18;
   for (let i = 0; i < count; i++) {
     const p = document.createElement('div');
     p.className = 'rose-petal';
     p.style.left = (Math.random() * 100) + '%';
-    const size = 10 + Math.random() * 16;
+    const size = isMobile ? (16 + Math.random() * 14) : (12 + Math.random() * 14);
     p.style.width  = size + 'px';
-    p.style.height = (size * 1.15) + 'px';
-    p.style.animationDuration = (7 + Math.random() * 9) + 's';
-    p.style.animationDelay    = (Math.random() * 12) + 's';
+    p.style.height = (size * 1.2) + 'px';
+    p.style.animationDuration = (5 + Math.random() * 7) + 's';
+    p.style.animationDelay    = (Math.random() * 8) + 's';
     bg.appendChild(p);
   }
 })();
