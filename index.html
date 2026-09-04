@@ -346,57 +346,7 @@
     50%     { transform: scaleY(1); }
   }
 
-  /* ── sound popup ── */
-  .sound-popup {
-    position: fixed;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10004;
-    background: rgba(43,27,30,0.5);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    width: 90%; max-width: 360px;
-    border-radius: 28px;
-    padding: 0.5rem;
-    opacity: 0;
-    animation: popupFadeIn 0.5s ease forwards;
-    pointer-events: auto;
-    will-change: opacity;
-  }
-  .sound-popup.hide {
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-
-  .popup-card {
-    background: #fff;
-    border-radius: 24px;
-    padding: 2.5rem 2rem;
-    text-align: center;
-    width: 100%;
-    box-shadow: 0 16px 60px rgba(0,0,0,0.35);
-    pointer-events: auto;
-    will-change: transform;
-  }
-  .popup-heart { font-size: 3.2rem; margin-bottom: 0.5rem; animation: pulse 1.5s ease-in-out infinite; }
-  .popup-title {
-    font-family: 'Great Vibes', cursive;
-    font-size: 1.6rem;
-    color: var(--wine);
-    margin-bottom: 0.4rem;
-  }
-  .popup-sub {
-    font-family: 'Playfair Display', serif;
-    font-size: 1rem;
-    color: #666;
-    margin-bottom: 0.6rem;
-  }
-  .popup-hint { font-size: 1.8rem; display: inline-block; animation: hintBounce 1.5s ease-in-out infinite; }
-
-  @keyframes popupFadeIn { from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
-  @keyframes popupFadeOut { from { opacity: 1; } to { opacity: 0; } }
-  @keyframes popupFadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes popupFadeIn { from { opacity: 0; } to { opacity: 1; } }
   @keyframes popupFadeOut { from { opacity: 1; } to { opacity: 0; } }
 
   /* ── extra animations ── */
@@ -580,16 +530,6 @@
 <!-- 👇 replace music.mp3 with your song file name -->
 <audio id="bgMusic" src="music.mp3" loop preload="auto" muted></audio>
 
-<!-- sound popup -->
-<div class="sound-popup" id="soundPopup">
-  <div class="popup-card">
-    <div class="popup-heart">💕</div>
-    <p class="popup-title">Happy Monthsary, Momii!</p>
-    <p class="popup-sub">Tap anywhere to hear the sound</p>
-    <span class="popup-hint">🎶</span>
-  </div>
-</div>
-
 <!-- ═══════════ HERO ═══════════ -->
 <section class="hero">
   <div class="twinkle"></div>
@@ -745,21 +685,13 @@
   }
 })();
 
-// ── sound popup + music auto-play ──
-(function initPopupAndMusic() {
-  const btn    = document.getElementById('musicBtn');
-  const music  = document.getElementById('bgMusic');
-  const popup  = document.getElementById('soundPopup');
+// ── music: try auto-play, fallback to tap ──
+(function initMusic() {
+  const btn   = document.getElementById('musicBtn');
+  const music = document.getElementById('bgMusic');
   if (!btn || !music) return;
 
   let playing = false;
-
-  function dismissPopup() {
-    if (popup && !popup.classList.contains('hide')) {
-      popup.classList.add('hide');
-      setTimeout(() => popup.remove(), 400);
-    }
-  }
 
   function startMusic() {
     if (playing) return;
@@ -767,15 +699,18 @@
     music.play().then(() => {
       playing = true;
       btn.classList.add('playing');
-      dismissPopup();
     }).catch(() => {});
   }
 
-  // first tap anywhere: dismiss popup + start music
+  // Try to auto-play on load (will work if user has interacted before, or if browser allows)
+  // Modern browsers often block autoplay with sound, so we also listen for first interaction
+  startMusic();
+
+  // Fallback: first tap anywhere starts music if autoplay was blocked
   document.addEventListener('click', startMusic, { once: true });
   document.addEventListener('touchstart', startMusic, { once: true });
 
-  // manual button toggle still works after music starts
+  // Manual button toggle
   btn.addEventListener('click', (e) => {
     e.stopPropagation();
     if (music.paused) {
