@@ -512,7 +512,7 @@
   <span class="music-eq" id="musicEq" aria-hidden="true"><i></i><i></i><i></i></span>
 </button>
 <!-- 👇 replace music.mp3 with your song file name -->
-<audio id="bgMusic" src="music.mp3" loop preload="auto" muted></audio>
+<audio id="bgMusic" src="music.mp3" loop preload="auto" muted crossorigin="anonymous"></audio>
 
 <!-- ═══════════ HERO ═══════════ -->
 <section class="hero">
@@ -683,18 +683,31 @@
   let playing = false;
   let unmuted = false;
 
+  // Handle load/error events for debugging
+  music.addEventListener('canplay', () => console.log('Audio can play'));
+  music.addEventListener('error', (e) => console.error('Audio error:', e));
+  music.addEventListener('loadstart', () => console.log('Audio loadstart'));
+  music.addEventListener('waiting', () => console.log('Audio waiting'));
+
   function startMusic() {
     if (playing) return;
-    music.play().then(() => {
-      playing = true;
-      btn.classList.add('playing');
-    }).catch(() => {});
+    const promise = music.play();
+    if (promise) {
+      promise.then(() => {
+        playing = true;
+        btn.classList.add('playing');
+        console.log('Music playing');
+      }).catch((err) => {
+        console.warn('Auto-play blocked:', err);
+      });
+    }
   }
 
   function unmuteMusic() {
     if (unmuted) return;
     music.muted = false;
     unmuted = true;
+    console.log('Music unmuted');
     // Remove listeners after first interaction
     cleanup();
   }
@@ -707,7 +720,13 @@
 
   // Start immediately MUTED (always works)
   music.muted = true;
-  startMusic();
+  music.load(); // Force load
+  // Ensure audio loads before trying to play
+  if (music.readyState >= 2) {
+    startMusic();
+  } else {
+    music.addEventListener('canplay', startMusic, { once: true });
+  }
 
   // Unmute on first user interaction (scroll, click, touch)
   document.addEventListener('click', unmuteMusic, { once: true, passive: true });
