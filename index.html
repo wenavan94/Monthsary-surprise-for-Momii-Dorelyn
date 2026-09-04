@@ -199,7 +199,6 @@
   }
   .reason-card {
     background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(8px);
     border: 1px solid rgba(255,255,255,0.12);
     border-radius: 14px;
     padding: 2rem 1.5rem;
@@ -280,11 +279,13 @@
 
   /* ── footer ── */
   footer {
+    position: relative;
+    z-index: 2;
     background: var(--dark);
     text-align: center;
     padding: 2rem;
-    color: rgba(255,255,255,0.4);
-    font-size: 0.85rem;
+    color: rgba(255,255,255,0.6);
+    font-size: 0.9rem;
   }
   footer a { color: var(--rose-light); text-decoration: none; }
 
@@ -303,7 +304,7 @@
   .music-btn {
     position: fixed;
     right: 1rem; bottom: 1rem;
-    z-index: 10000;
+    z-index: 10002;
     width: 56px; height: 56px;
     border: none; border-radius: 50%;
     background: linear-gradient(135deg, var(--rose), var(--wine));
@@ -343,18 +344,18 @@
 
   /* ── sound popup ── */
   .sound-popup {
-    position: fixed; inset: 0;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
     z-index: 9998;
     background: rgba(43,27,30,0.45);
     display: flex; align-items: center; justify-content: center;
     cursor: pointer;
-    animation: popupFadeIn 0.6s ease forwards;
   }
   .sound-popup.hide {
-    animation: popupFadeOut 0.5s ease forwards;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
   }
-  @keyframes popupFadeIn { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes popupFadeOut { from { opacity: 1; } to { opacity: 0; pointer-events: none; } }
 
   .popup-card {
     background: #fff;
@@ -364,7 +365,7 @@
     max-width: 320px;
     width: 85%;
     box-shadow: 0 16px 60px rgba(0,0,0,0.35);
-    animation: popupBounce 2.5s ease-in-out infinite;
+    margin: 0 auto;
     pointer-events: auto;
   }
   .popup-heart { font-size: 3.2rem; margin-bottom: 0.5rem; animation: pulse 1.5s ease-in-out infinite; }
@@ -380,11 +381,7 @@
     color: #666;
     margin-bottom: 0.6rem;
   }
-  .popup-hint { font-size: 1.8rem; animation: hintBounce 1.5s ease-in-out infinite; display: inline-block; }
-  @keyframes popupBounce {
-    0%,100% { transform: scale(1); }
-    50%     { transform: scale(1.03); }
-  }
+  .popup-hint { font-size: 1.8rem; display: inline-block; animation: hintBounce 1.5s ease-in-out infinite; }
 
   /* ── extra animations ── */
 
@@ -522,7 +519,7 @@
     .promise-text { font-size: 1rem; line-height: 1.9; }
     .big-heart { font-size: 3rem; margin: 1.5rem 0; }
 
-    footer { padding: 1.5rem 1rem; }
+    footer { padding: 1.5rem 1rem; font-size: 0.85rem; color: rgba(255,255,255,0.6); }
   }
 
   /* ── disable hover effects on touch devices ── */
@@ -696,7 +693,7 @@
 (function spawnPetals() {
   const bg = document.getElementById('petalsBg');
   if (!bg) return;
-  const count = 30;
+  const count = 18;
   for (let i = 0; i < count; i++) {
     const p = document.createElement('div');
     p.className = 'rose-petal';
@@ -704,8 +701,8 @@
     const size = 10 + Math.random() * 16;
     p.style.width  = size + 'px';
     p.style.height = (size * 1.15) + 'px';
-    p.style.animationDuration = (6 + Math.random() * 8) + 's';
-    p.style.animationDelay    = (Math.random() * 10) + 's';
+    p.style.animationDuration = (7 + Math.random() * 9) + 's';
+    p.style.animationDelay    = (Math.random() * 12) + 's';
     bg.appendChild(p);
   }
 })();
@@ -714,7 +711,7 @@
 (function spawnHearts() {
   const bg = document.getElementById('heartsBg');
   const symbols = ['❤️','💕','💖','💗','💘','🌹','✨','💝'];
-  for (let i = 0; i < 25; i++) {
+  for (let i = 0; i < 18; i++) {
     const el = document.createElement('span');
     el.className = 'heart-float';
     el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
@@ -738,7 +735,7 @@
   function dismissPopup() {
     if (popup && !popup.classList.contains('hide')) {
       popup.classList.add('hide');
-      setTimeout(() => popup.style.display = 'none', 500);
+      setTimeout(() => popup.remove(), 500);
     }
   }
 
@@ -791,7 +788,7 @@ const observer = new IntersectionObserver((entries) => {
       observer.unobserve(e.target);
     }
   });
-}, { threshold: 0.15 });
+}, { threshold: 0.05, rootMargin: '0px 0px -5% 0px' });
 reveals.forEach(el => observer.observe(el));
 
 // ── sparkle on click ──
